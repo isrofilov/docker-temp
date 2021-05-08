@@ -1,0 +1,14 @@
+FROM php:7.4-fpm-buster
+
+RUN apt-get update && \
+	apt-get upgrade -y && \
+	apt autoremove -y && \
+	apt-get install cron nano -y
+
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+
+RUN install-php-extensions bcmath bz2 calendar Core ctype curl date dom exif FFI fileinfo		\
+	filter ftp gd gettext hash iconv imagick imap intl json libxml mbstring mysqli mysqlnd		\
+	openssl pcntl pcre PDO pdo_mysql Phar posix readline Reflection session shmop SimpleXML		\
+	sockets sodium SPL standard sysvmsg sysvsem sysvshm tokenizer xml xmlreader xmlwriter xsl	\
+	OPcache zip zlib @composer
